@@ -407,7 +407,7 @@ async function applyTemplate(t) {
     else o.set({ left: o.left * s + ox, top: o.top * s + oy, scaleX: o.scaleX * s, scaleY: o.scaleY * s });
     o.setCoords(); canvas.add(o);
   });
-  S.loading = false; canvas.requestRenderAll(); commit(); renderProps();
+  S.loading = false; canvas.renderAll(); commit(); renderProps();
 }
 
 /* ---------------- left panel ---------------- */
