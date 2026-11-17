@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link id="gfonts" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 <header id="topbar">
-  <div class="brand" id="homeBtn" title="Your designs"><span class="logo"></span>Nova Studio</div>
+  <div class="brand" id="homeBtn" title="Your designs"><span class="logo"></span><span class="wordmark">Nova Studio</span></div>
   <button class="tb" id="newBtn" title="New design">New</button>
   <button class="tb" id="resizeBtn" title="Resize design">Resize</button>
   <div class="sep"></div>
@@ -22,6 +22,8 @@
   <div class="grow"></div>
   <input id="docName" class="docname" spellcheck="false" title="Design name">
   <div class="grow"></div>
+  <button class="tb kbd" id="cmdBtn" title="Command palette (Ctrl+K)" data-i="search"><span>Search</span><kbd>Ctrl K</kbd></button>
+  <button class="tb magic" id="magicBtn" title="Magic tools (M)" data-i="magic">Magic</button>
   <button class="tb" id="openBtn" title="Open .nova project file">Open</button>
   <button class="tb" id="saveBtn" title="Save project file">Save file</button>
   <button class="tb primary" id="exportBtn">Download</button>
@@ -53,6 +55,8 @@
 <script src="lib/fabric.min.js"></script>
 <script src="lib/jspdf.umd.min.js"></script>
 <script src="lib/qrcode.min.js"></script>
-<script src="app.js?v=2"></script>
+<script src="stock.js?v=3"></script>
+<script src="app.js?v=3"></script>
+<script src="magic.js?v=3"></script>
 </body>
 </html>

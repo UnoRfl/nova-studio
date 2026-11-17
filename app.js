@@ -51,13 +51,17 @@ const ICONS = {
   dropper: 'M19 5l-2-2-4 4-1-1-2 2 1 1-7 7v3h3l7-7 1 1 2-2-1-1z',
   close: 'M6 6l12 12M18 6L6 18', left: 'M15 18l-6-6 6-6', right: 'M9 18l6-6-6-6',
   image: 'M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6', download: 'M12 4v12M7 11l5 5 5-5M4 20h16',
+  magic: 'M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6zM19 14l.8 2.2 2.2.8-2.2.8L19 20l-.8-2.2L16 17l2.2-.8zM5 15l.6 1.4L7 17l-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z',
+  backgrounds: 'M3 3h18v18H3zM3 15c4-4 7-4 10 0s5 3 8-1M15 8a1.5 1.5 0 1 0 0-.01',
+  search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4', scissors: 'M6 4a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM6 14a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM8.5 8.5L20 20M8.5 15.5L20 4', eraser: 'M16 3l5 5-11 11H5l-2-2zM9 9l6 6M10 19h11',
+  layersplit: 'M12 3l9 5-9 5-9-5zM3 16l9 5 9-5', cmd: 'M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z',
 };
 const ico = n => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('class', 'i'); s.innerHTML = `<path d="${ICONS[n]}"/>`; return s; };
 function toast(msg, ms = 1800) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), ms); }
 
 /* ---------------- constants ---------------- */
 const PROPS = ['id', 'name', 'locked', 'isBg', 'selectable', 'evented', 'hasControls', 'editable', 'lockMovementX', 'lockMovementY',
-  'lockScalingX', 'lockScalingY', 'lockRotation', 'crossOrigin', 'maskType', 'gradAngle', 'cropL', 'cropR', 'cropT', 'cropB'];
+  'lockScalingX', 'lockScalingY', 'lockRotation', 'crossOrigin', 'maskType', 'gradAngle', 'cropL', 'cropR', 'cropT', 'cropB', 'magicKind', 'bgArt'];
 const FONTS = ['Inter', 'Poppins', 'Montserrat', 'Roboto', 'Open Sans', 'Lato', 'Raleway', 'Nunito', 'Rubik', 'Space Grotesk', 'DM Sans',
   'Josefin Sans', 'Quicksand', 'Comfortaa', 'Fredoka', 'Oswald', 'Bebas Neue', 'Anton', 'Archivo Black', 'Bungee', 'Righteous',
   'Playfair Display', 'DM Serif Display', 'Abril Fatface', 'Lora', 'Merriweather', 'Cormorant Garamond', 'Libre Baskerville',
@@ -282,6 +286,25 @@ function shape(kind, fill = '#8b5cf6') {
 /* ---------------- templates (original designs) ---------------- */
 const PIC = (id, w, h) => `https://picsum.photos/id/${id}/${w}/${h}`;
 const TEMPLATES = [
+  { name: 'Golden hour', w: 1080, h: 1350, bg: '#1c1208', o: [
+    { t: 'img', src: PIC(778, 1080, 1350), x: 0, y: 0, w: 1080, h: 1350 },
+    { t: 'rect', x: 0, y: 700, w: 1080, h: 650, fill: ['rgba(28,18,8,0)', 'rgba(28,18,8,0.85)', 180] },
+    { t: 'text', text: 'slow days', x: 80, y: 930, w: 920, size: 150, font: 'DM Serif Display', color: '#fff7ed' },
+    { t: 'text', text: 'SUMMER JOURNAL · VOL. 03', x: 84, y: 1120, w: 920, size: 30, font: 'Inter', color: '#fdba74', ls: 320 }] },
+  { name: 'Pastel quote', w: 1080, h: 1080, bg: '#fdf2f8', o: [
+    { t: 'img', src: PIC(866, 1080, 1080), x: 0, y: 0, w: 1080, h: 1080 },
+    { t: 'rect', x: 140, y: 300, w: 800, h: 480, rx: 36, fill: 'rgba(255,255,255,0.78)' },
+    { t: 'text', text: 'bloom where you are planted', x: 200, y: 400, w: 680, size: 82, font: 'Cormorant Garamond', color: '#6b2147', align: 'center', lh: 1.05 },
+    { t: 'text', text: '— ✿ —', x: 200, y: 640, w: 680, size: 34, font: 'Inter', color: '#db2777', align: 'center' }] },
+  { name: 'Adventure', w: 1080, h: 1920, bg: '#0b1220', o: [
+    { t: 'img', src: PIC(1036, 1080, 1920), x: 0, y: 0, w: 1080, h: 1920 },
+    { t: 'rect', x: 0, y: 0, w: 1080, h: 760, fill: ['rgba(11,18,32,0.75)', 'rgba(11,18,32,0)', 180] },
+    { t: 'text', text: 'GO', x: 0, y: 150, w: 1080, size: 340, font: 'Anton', color: '#ffffff', align: 'center', lh: 0.9 },
+    { t: 'text', text: 'FIND YOUR NORTH', x: 0, y: 500, w: 1080, size: 48, font: 'Montserrat', bold: 1, color: '#bae6fd', align: 'center', ls: 400 }] },
+  { name: 'Café menu', w: 1080, h: 1350, bg: '#f5efe6', o: [
+    { t: 'img', src: PIC(431, 1080, 700), x: 0, y: 0, w: 1080, h: 700, mask: 'arch' },
+    { t: 'text', text: 'Morning Brew', x: 0, y: 760, w: 1080, size: 110, font: 'Playfair Display', color: '#3f2a1d', align: 'center' },
+    { t: 'text', text: 'Latte  4.5\nFlat white  4\nCold brew  5', x: 0, y: 930, w: 1080, size: 46, font: 'DM Sans', color: '#7c5a43', align: 'center', lh: 1.5 }] },
   { name: 'Summer sale', w: 1080, h: 1080, bg: ['#f857a6', '#ff5858', 135], o: [
     { t: 'circle', x: 640, y: -160, r: 320, fill: 'rgba(255,255,255,0.14)' }, { t: 'circle', x: -140, y: 760, r: 230, fill: 'rgba(255,255,255,0.12)' },
     { t: 'text', text: 'SUMMER', x: 90, y: 200, size: 190, font: 'Bebas Neue', color: '#ffffff', ls: 40 },
@@ -411,7 +434,7 @@ async function applyTemplate(t) {
 }
 
 /* ---------------- left panel ---------------- */
-const TABS = [['templates', 'Templates'], ['elements', 'Elements'], ['text', 'Text'], ['photos', 'Photos'], ['icons', 'Icons'],
+const TABS = [['templates', 'Templates'], ['magic', 'Magic'], ['photos', 'Photos'], ['backgrounds', 'Backdrops'], ['elements', 'Elements'], ['text', 'Text'], ['icons', 'Icons'],
   ['uploads', 'Uploads'], ['draw', 'Draw'], ['qr', 'QR code'], ['layers', 'Layers']];
 function buildRail() {
   const r = $('#rail');
@@ -423,7 +446,7 @@ function buildRail() {
 function renderPanel() {
   const P = $('#panelBody'); P.innerHTML = '';
   if (S.tab !== 'draw' && S.drawing) setDrawing(false);
-  ({ templates: panelTemplates, elements: panelElements, text: panelText, photos: panelPhotos, icons: panelIcons, uploads: panelUploads, draw: panelDraw, qr: panelQR, layers: panelLayers })[S.tab](P);
+  ({ templates: panelTemplates, magic: panelMagic, backgrounds: panelBackgrounds, elements: panelElements, text: panelText, photos: panelPhotos, icons: panelIcons, uploads: panelUploads, draw: panelDraw, qr: panelQR, layers: panelLayers })[S.tab](P);
 }
 function panelTemplates(P) {
   P.append(h('h3', {}, 'Templates'));
@@ -486,43 +509,155 @@ function panelText(P) {
   const e = h('div', { class: 'grid g6' }); P.append(e);
   EMOJI.forEach(x => e.append(h('div', { class: 'tile emoji', onclick: () => addText(x, { fontSize: B() * 0.15, width: B() * 0.2 }) }, x)));
 }
-async function panelPhotos(P) {
-  const inp = h('input', { class: 'search', placeholder: 'Search free photos (Openverse)', value: S.photoQ || '' });
-  const g = h('div', { class: 'grid g2', style: 'margin-top:10px' });
-  const more = h('button', { class: 'btn block', style: 'margin-top:10px' }, 'More');
-  P.append(inp, g, more, h('div', { class: 'note' }, 'Openverse (CC licensed) and Lorem Picsum. Credit shows on hover.'));
-  let page = 1, token = 0;
-  const run = async (reset) => {
-    if (reset) { g.innerHTML = ''; page = 1; }
-    const my = ++token;
-    const q = inp.value.trim(); S.photoQ = q;
-    try {
-      if (q) {
-        const r = await fetch(`https://api.openverse.org/v1/images/?q=${encodeURIComponent(q)}&page_size=20&page=${page}`).then(r => r.json());
-        if (my !== token) return;
-        (r.results || []).forEach(it => {
-          const thumb = `https://api.openverse.org/v1/images/${it.id}/thumb/`;
-          const cred = `${it.title || 'Photo'} by ${it.creator || 'unknown'} (${(it.license || '').toUpperCase()} ${it.license_version || ''})`;
-          g.append(photoTile(thumb, it.url, thumb, cred));
-        });
-        if (!r.results?.length && page === 1) g.append(h('div', { class: 'empty', style: 'grid-column:span 2' }, 'No results'));
-      } else {
-        const r = await fetch(`https://picsum.photos/v2/list?page=${page}&limit=24`).then(r => r.json());
-        if (my !== token) return;
-        r.forEach(it => { const ww = 1600, hh = Math.round(1600 * it.height / it.width); g.append(photoTile(PIC(it.id, 300, 300), PIC(it.id, ww, hh), null, `Photo by ${it.author} (Unsplash license)`)); });
-      }
-      page++;
-    } catch { if (page === 1) g.append(h('div', { class: 'empty', style: 'grid-column:span 2' }, 'Offline — use Uploads')); }
-  };
-  inp.onkeydown = e => { if (e.key === 'Enter') run(true); };
-  more.onclick = () => run(false);
-  run(true);
-}
-function photoTile(thumb, full, fallback, cred) {
-  const t = h('div', { class: 'tile photo', title: cred, draggable: 'true' }, h('img', { src: thumb, loading: 'lazy', alt: '' }));
-  t.onclick = () => addImageURL(full, { fallback, name: cred.slice(0, 80) });
-  t.ondragstart = e => e.dataTransfer.setData('text/nova', JSON.stringify({ kind: 'img', url: full, fallback, name: cred }));
+/* ---------------- photos: curated sets + stock search ---------------- */
+const STOCK_SRC = 'stocksnap,wordpress,nappy';
+const picsumURL = (id, long) => { const [w, hh] = STOCK_PHOTOS[id]; const s = Math.min(1, long / Math.max(w, hh)); return `https://picsum.photos/id/${id}/${Math.round(w * s)}/${Math.round(hh * s)}`; };
+function photoCard(thumb, ratio, add, cred, drag) {
+  const t = h('div', { class: 'ph', title: cred, draggable: 'true', style: `aspect-ratio:${ratio}` }, h('img', { src: thumb, loading: 'lazy', alt: '', onload: e => e.target.classList.add('in') }), h('span', { class: 'cred' }, cred.replace(/ \(.*$/, '')));
+  t.onclick = add; t.ondragstart = e => e.dataTransfer.setData('text/nova', JSON.stringify(drag));
   return t;
+}
+function curatedCard(id, asBg) {
+  const [w, hh, author] = STOCK_PHOTOS[id]; const full = picsumURL(id, 2400);
+  const cred = `Photo by ${author} (Unsplash)`;
+  return photoCard(picsumURL(id, 420), w / hh, () => asBg ? setPhotoBg(full, cred) : addImageURL(full, { name: cred }), cred, { kind: 'img', url: full, name: cred });
+}
+function masonry() { return h('div', { class: 'masonry' }); }
+async function panelPhotos(P) {
+  const inp = h('input', { class: 'search', placeholder: 'Search photos', value: S.photoQ || '' });
+  const chips = h('div', { class: 'chips' });
+  const grid = masonry();
+  const more = h('button', { class: 'btn block hidden', style: 'margin-top:10px' }, 'More');
+  P.append(h('div', { class: 'searchwrap' }, ico('search'), inp), chips, grid, more);
+  S.photoSet ||= 'Aesthetic';
+  let page = 1, token = 0;
+  const showSet = name => {
+    S.photoSet = name; S.photoQ = ''; inp.value = ''; ++token; more.classList.add('hidden');
+    $$('.chip', chips).forEach(c => c.classList.toggle('on', c.textContent === name));
+    grid.innerHTML = ''; STOCK_SETS[name].forEach(id => grid.append(curatedCard(id)));
+  };
+  Object.keys(STOCK_SETS).forEach(n => chips.append(h('button', { class: 'chip', onclick: () => showSet(n) }, n)));
+  const search = async reset => {
+    const q = inp.value.trim(); S.photoQ = q;
+    if (!q) return showSet(S.photoSet);
+    if (reset) { grid.innerHTML = ''; page = 1; $$('.chip', chips).forEach(c => c.classList.remove('on')); }
+    const my = ++token;
+    // curated sets whose name matches go first
+    if (reset) Object.entries(STOCK_SETS).filter(([n]) => n.toLowerCase().includes(q.toLowerCase())).forEach(([, ids]) => ids.forEach(id => grid.append(curatedCard(id))));
+    try {
+      const get = src => fetch(`https://api.openverse.org/v1/images/?q=${encodeURIComponent(q)}&page_size=20&page=${page}${src ? '&source=' + src : '&category=photograph'}`).then(r => r.json());
+      let r = await get(STOCK_SRC);
+      if (my !== token) return;
+      if ((r.results || []).length < 8 && page === 1) { const r2 = await get(''); if (my !== token) return; r = { results: [...(r.results || []), ...(r2.results || [])] }; }
+      (r.results || []).forEach(it => {
+        const base = `https://api.openverse.org/v1/images/${it.id}/thumb/`;
+        const cred = `${it.title || 'Photo'} by ${it.creator || 'unknown'} (${(it.license || '').toUpperCase()} ${it.license_version || ''})`;
+        const full = base + '?full_size=true';
+        grid.append(photoCard(base, it.width && it.height ? it.width / it.height : 1, () => addImageURL(full, { fallback: base, name: cred.slice(0, 80) }), cred, { kind: 'img', url: full, fallback: base, name: cred }));
+      });
+      if (!grid.children.length) grid.append(h('div', { class: 'empty' }, 'No results'));
+      more.classList.toggle('hidden', !(r.results || []).length);
+      page++;
+    } catch { if (!grid.children.length) grid.append(h('div', { class: 'empty' }, 'Offline — try a collection')); }
+  };
+  inp.onkeydown = e => { if (e.key === 'Enter') search(true); };
+  more.onclick = () => search(false);
+  S.photoQ ? search(true) : showSet(S.photoSet);
+}
+const getBgArt = () => canvas.getObjects().find(o => o.bgArt);
+function setPhotoBg(url, name) {
+  toast('Setting background…', 1200);
+  loadImg(url).then(img => {
+    const old = getBgArt(); if (old) canvas.remove(old);
+    coverImg(img, W(), H()); img.set({ left: 0, top: 0, name: name || 'Background photo', bgArt: true }); img.id = uid();
+    canvas.insertAt(img, 1); setLock([img], true); canvas.discardActiveObject(); canvas.renderAll(); commit();
+  }).catch(() => toast('Could not load that photo'));
+}
+
+/* ---------------- backdrops: generated aesthetic backgrounds ---------------- */
+const PALETTES = [
+  ['#ffd6e8', '#c4b5fd', '#a5f3fc', '#fef3c7'], ['#0f0c29', '#7c3aed', '#ec4899', '#22d3ee'], ['#fde2e4', '#fad2e1', '#bee1e6', '#cddafd'], ['#ff9a8b', '#ff6a88', '#ffd194', '#ff99ac'],
+  ['#0b1020', '#1e3a8a', '#06b6d4', '#a7f3d0'], ['#f6d365', '#fda085', '#f093fb', '#f5576c'], ['#e0c3fc', '#8ec5fc', '#f9f586', '#96fbc4'], ['#1a1a2e', '#e94560', '#f5a623', '#0f3460'],
+  ['#d4fc79', '#96e6a1', '#84fab0', '#8fd3f4'], ['#fbc2eb', '#a6c1ee', '#fdcbf1', '#e6dee9'], ['#232526', '#414345', '#bdc3c7', '#2c3e50'], ['#ffecd2', '#fcb69f', '#ff8177', '#cf556c'],
+  ['#c1dfc4', '#deecdd', '#f3e7e9', '#e3eeff'], ['#3a1c71', '#d76d77', '#ffaf7b', '#2b5876'], ['#f8f4ec', '#e8d5b7', '#c9ada7', '#9a8c98'], ['#000000', '#3b82f6', '#a855f7', '#f43f5e'],
+];
+const BG_STYLES = ['Mesh', 'Aurora', 'Waves', 'Grain'];
+function seeded(n) { let x = n * 9301 + 49297; return () => (x = (x * 9301 + 49297) % 233280) / 233280; }
+function genBackdrop(style, pal, w, hh, seed = 1) {
+  const c = document.createElement('canvas'); c.width = w; c.height = hh; const x = c.getContext('2d', { willReadFrequently: true }); const r = seeded(seed * 13 + style.length);
+  const m = Math.max(w, hh);
+  if (style === 'Mesh' || style === 'Aurora') {
+    x.fillStyle = style === 'Aurora' ? '#05060f' : pal[0]; x.fillRect(0, 0, w, hh);
+    const blobs = style === 'Aurora' ? 7 : 6;
+    x.filter = `blur(${Math.round(m * (style === 'Aurora' ? 0.06 : 0.09))}px)`;
+    for (let i = 0; i < blobs; i++) {
+      const col = pal[(i + 1) % pal.length];
+      if (style === 'Aurora') {
+        x.globalAlpha = 0.75; x.fillStyle = col; x.beginPath();
+        const cx = r() * w, wd = m * (0.08 + r() * 0.12);
+        x.ellipse(cx, hh * (0.3 + r() * 0.3), wd, hh * (0.35 + r() * 0.3), (r() - 0.5) * 0.9, 0, Math.PI * 2); x.fill();
+      } else {
+        const cx = r() * w, cy = r() * hh, rad = m * (0.35 + r() * 0.35);
+        const g = x.createRadialGradient(cx, cy, 0, cx, cy, rad); g.addColorStop(0, col); g.addColorStop(1, col + '00');
+        x.globalAlpha = 0.95; x.fillStyle = g; x.fillRect(0, 0, w, hh);
+      }
+    }
+    x.filter = 'none'; x.globalAlpha = 1;
+  } else if (style === 'Waves') {
+    const g = x.createLinearGradient(0, 0, 0, hh); g.addColorStop(0, pal[0]); g.addColorStop(1, pal[1]); x.fillStyle = g; x.fillRect(0, 0, w, hh);
+    for (let i = 0; i < 4; i++) {
+      const base = hh * (0.45 + i * 0.15), amp = hh * (0.04 + r() * 0.05), ph = r() * 6, fr = 1 + r() * 1.5;
+      x.beginPath(); x.moveTo(0, hh);
+      for (let px = 0; px <= w; px += Math.max(2, w / 200)) x.lineTo(px, base + Math.sin(px / w * Math.PI * 2 * fr + ph) * amp);
+      x.lineTo(w, hh); x.closePath(); x.fillStyle = pal[(i + 2) % pal.length]; x.globalAlpha = 0.55 + i * 0.12;
+      x.shadowColor = 'rgba(0,0,0,0.18)'; x.shadowBlur = m * 0.02; x.fill();
+    }
+    x.globalAlpha = 1; x.shadowBlur = 0;
+  } else {
+    const a = r() * Math.PI * 2, g = x.createLinearGradient(w / 2 - Math.cos(a) * m / 2, hh / 2 - Math.sin(a) * m / 2, w / 2 + Math.cos(a) * m / 2, hh / 2 + Math.sin(a) * m / 2);
+    pal.forEach((col, i) => g.addColorStop(i / (pal.length - 1), col)); x.fillStyle = g; x.fillRect(0, 0, w, hh);
+  }
+  // film grain
+  const id = x.getImageData(0, 0, w, hh), d = id.data, amt = style === 'Grain' ? 26 : 12;
+  for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - 0.5) * amt; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  x.putImageData(id, 0, 0);
+  return c;
+}
+const backdropThumbs = {};
+function panelBackgrounds(P) {
+  S.bgStyle ||= 'Mesh';
+  const seg = segBtns(BG_STYLES.map(s => [s, s, S.bgStyle === s]), v => { S.bgStyle = v; renderPanel(); });
+  P.append(h('h3', {}, 'Generate'), seg);
+  const g = h('div', { class: 'grid g2', style: 'margin-top:10px' }); P.append(g);
+  PALETTES.forEach((pal, i) => {
+    const k = S.bgStyle + i; const url = backdropThumbs[k] ||= genBackdrop(S.bgStyle, pal, 240, 240, i + 1).toDataURL('image/jpeg', 0.85);
+    g.append(h('div', { class: 'tile tpl', style: 'aspect-ratio:1', onclick: () => {
+      const s = Math.min(1, 2400 / Math.max(W(), H()));
+      const c = genBackdrop(S.bgStyle, pal, Math.round(W() * s), Math.round(H() * s), i + 1);
+      setPhotoBg(c.toDataURL('image/jpeg', 0.92), S.bgStyle + ' backdrop');
+    } }, h('img', { src: url, alt: '' })));
+  });
+  P.append(h('button', { class: 'btn block', style: 'margin-top:10px', onclick: () => { const o = getBgArt(); if (o) { canvas.remove(o); canvas.renderAll(); commit(); } } }, 'Remove backdrop'));
+  P.append(h('h3', {}, 'Photo backdrops'));
+  const m = masonry(); P.append(m);
+  [...STOCK_SETS['Minimal'], ...STOCK_SETS['Pastel']].filter((v, i, a) => a.indexOf(v) === i).forEach(id => m.append(curatedCard(id, true)));
+}
+
+/* ---------------- magic panel ---------------- */
+function panelMagic(P) {
+  const a = canvas.getActiveObject(); const img = isImg(a) ? a : null;
+  P.append(h('div', { class: 'magic-hero' }, h('div', { class: 'orb' }), h('b', {}, 'Magic studio'), h('span', {}, img ? nameOf(img).slice(0, 34) : 'Select a photo')));
+  const card = (icon, title, hint, fn) => h('button', { class: 'mcard', disabled: !img, onclick: () => fn(img) }, h('span', { class: 'mi' }, ico(icon)), h('span', { class: 'mt' }, h('b', {}, title), h('small', {}, hint)));
+  P.append(card('layersplit', 'Magic layers', 'People, objects & text', o => Magic.openMagic(o, 'separate')),
+    card('scissors', 'Remove background', 'One-click cutout', o => Magic.removeBackground(o)),
+    card('eraser', 'Magic eraser', 'Paint it away', o => Magic.openMagic(o, 'erase')),
+    card('magic', 'Split pieces', 'Letters & stickers', o => Magic.splitPieces(o)));
+  if (!img) {
+    P.append(h('h3', {}, 'Try it on'));
+    const m = masonry(); P.append(m);
+    [1011, 656, 669, 1005, 64, 823].forEach(id => { const c = curatedCard(id); c.onclick = () => { const au = STOCK_PHOTOS[id][2]; addImageURL(picsumURL(id, 1600), { name: `Photo by ${au} (Unsplash)` }); }; m.append(c); });
+  }
+  P.append(h('div', { class: 'note' }, 'Runs on your device · free'));
 }
 function panelIcons(P) {
   const inp = h('input', { class: 'search', placeholder: 'Search 200,000+ free icons', value: S.iconQ || 'star' });
@@ -835,6 +970,10 @@ function setF(o, type, prop, v, neutral) {
 }
 function imageProps(o) {
   const out = [];
+  const mb = (icon, label, fn, cls = '') => h('button', { class: 'mbtn ' + cls, onclick: () => fn(o) }, ico(icon), label);
+  out.push(h('div', { class: 'sec magicsec' }, h('h4', {}, h('span', { class: 'glow' }, '✨ Magic')),
+    h('div', { class: 'grid g2' }, mb('layersplit', 'Magic layers', x => Magic.openMagic(x, 'separate'), 'hero'), mb('scissors', 'Remove BG', x => Magic.removeBackground(x)),
+      mb('eraser', 'Eraser', x => Magic.openMagic(x, 'erase')), mb('magic', 'Split', x => Magic.splitPieces(x)))));
   const curPreset = (o.filters || []).find(f => f && PRESET_TYPES.includes(f.type))?.type;
   const g = h('div', { class: 'grid g5' });
   PRESETS.forEach(([label, type]) => g.append(h('button', { class: 'btn' + ((curPreset || undefined) === type ? ' on' : ''), style: 'padding:6px 0;font-size:10.5px', onclick: () => {
@@ -999,7 +1138,7 @@ canvas.on('object:modified', e => {
 });
 canvas.on('text:changed', debounce(commit, 400));
 canvas.on('text:editing:exited', commit);
-['selection:created', 'selection:updated', 'selection:cleared'].forEach(ev => canvas.on(ev, () => { renderProps(); renderLayers(); hideCtx(); }));
+['selection:created', 'selection:updated', 'selection:cleared'].forEach(ev => canvas.on(ev, () => { renderProps(); renderLayers(); hideCtx(); if (S.tab === 'magic' && !S.loading) renderPanel(); }));
 canvas.on('mouse:down', e => {
   if (e.button === 3 || e.e.button === 2) {
     if (e.target && !e.target.isBg && !canvas.getActiveObjects().includes(e.target)) canvas.setActiveObject(e.target);
@@ -1018,6 +1157,7 @@ function showCtx(x, y) {
     if (a.type === 'activeSelection') item('Group', 'Ctrl+G', group);
     if (a.type === 'group') item('Ungroup', 'Ctrl+Shift+G', ungroup);
     item(a.locked ? 'Unlock' : 'Lock', '', () => setLock(sel(), !a.locked));
+    if (isImg(a) && !a.locked) { m.append(h('hr')); item('✨ Magic layers', 'M', () => Magic.openMagic(a)); item('✨ Remove background', '', () => Magic.removeBackground(a)); item('✨ Magic eraser', 'E', () => Magic.openMagic(a, 'erase')); if (a.magicKind) item('✨ Split into pieces', '', () => Magic.splitPieces(a)); }
   }
   if (S.clip) item('Paste', 'Ctrl+V', paste);
   item('Select all', 'Ctrl+A', selectAll);
@@ -1032,7 +1172,7 @@ document.addEventListener('mousedown', e => { if (!e.target.closest('#ctx') && !
 document.addEventListener('keydown', e => {
   if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || e.target.isContentEditable) return;
   const a = canvas.getActiveObject(); if (a && a.isEditing) return;
-  if (!$('#modal').classList.contains('hidden')) { if (e.key === 'Escape') closeModal(); return; }
+  if (!$('#modal').classList.contains('hidden')) { if (e.key === 'Escape') { if ($('.ml')) Magic.close(); else closeModal(); } return; }
   const k = e.key.toLowerCase(), mod = e.ctrlKey || e.metaKey;
   if (mod && k === 'z' && !e.shiftKey) undo();
   else if (mod && (k === 'y' || (k === 'z' && e.shiftKey))) redo();
@@ -1043,6 +1183,7 @@ document.addEventListener('keydown', e => {
   else if (mod && k === 'a') selectAll();
   else if (mod && k === 'g') e.shiftKey ? ungroup() : group();
   else if (mod && k === 's') saveFile();
+  else if (mod && k === 'k') openPalette();
   else if (mod && k === ']') order('front');
   else if (mod && k === '[') order('bottom');
   else if (mod && (k === '=' || k === '+')) setZoom(S.zoom * 1.2);
@@ -1052,6 +1193,8 @@ document.addEventListener('keydown', e => {
   else if (k === 'delete' || k === 'backspace') del();
   else if (k === 'escape') { if (S.drawing) { setDrawing(false); if (S.tab === 'draw') renderPanel(); } canvas.discardActiveObject(); canvas.requestRenderAll(); }
   else if (k.startsWith('arrow') && a) { const d = e.shiftKey ? 10 : 1; if (a.locked) return; if (k === 'arrowleft') a.left -= d; if (k === 'arrowright') a.left += d; if (k === 'arrowup') a.top -= d; if (k === 'arrowdown') a.top += d; a.setCoords(); canvas.requestRenderAll(); commitSoon(); }
+  else if (k === 'm' && isImg(a)) Magic.openMagic(a);
+  else if (k === 'e' && isImg(a)) Magic.openMagic(a, 'erase');
   else if (k === 't') addText('Your text here');
   else if (k === 'r') place(shape('rect'));
   else if (k === 'c') place(shape('circle'));
@@ -1235,16 +1378,56 @@ async function openProjectFile(f) {
   } catch (e) { toast('Could not open: ' + e.message); }
 }
 
+/* ---------------- command palette ---------------- */
+function paletteActions() {
+  const a = canvas.getActiveObject(), img = isImg(a) ? a : null;
+  const go = tab => () => { $('#panel').classList.remove('closed'); S.tab = tab; $$('.rb').forEach(b => b.classList.toggle('on', b.dataset.k === tab)); renderPanel(); };
+  const acts = [
+    ['Magic layers', 'magic', img && (() => Magic.openMagic(img))], ['Remove background', 'scissors', img && (() => Magic.removeBackground(img))],
+    ['Magic eraser', 'eraser', img && (() => Magic.openMagic(img, 'erase'))], ['Split into pieces', 'magic', img && (() => Magic.splitPieces(img))],
+    ['Add heading', 'text', () => addText('Add a heading', { fontSize: B() * 0.1, fontWeight: 'bold', fontFamily: 'Poppins' })], ['Add text', 'text', () => addText('Your text here')],
+    ['Rectangle', 'elements', () => place(shape('rounded'))], ['Circle', 'elements', () => place(shape('circle'))], ['Star', 'elements', () => place(shape('star'))],
+    ['Templates', 'templates', go('templates')], ['Photos', 'photos', go('photos')], ['Backdrops', 'backgrounds', go('backgrounds')], ['Icons', 'icons', go('icons')], ['Layers', 'layers', go('layers')],
+    ['Upload images', 'uploads', () => $('#fileImg').click()], ['Download', 'download', openExport], ['Resize design', 'templates', openResize], ['New design', 'plus', openHome],
+    ['Undo', 'undo', undo], ['Redo', 'redo', redo], ['Duplicate', 'copy', duplicate], ['Delete', 'trash', del], ['Zoom to fit', 'plus', fit],
+  ];
+  Object.keys(STOCK_SETS).forEach(n => acts.push([n + ' photos', 'photos', () => { S.photoSet = n; S.photoQ = ''; go('photos')(); }]));
+  return acts.filter(x => x[2]);
+}
+function openPalette() {
+  const inp = h('input', { class: 'search pal-in', placeholder: 'Type a command…' });
+  const list = h('div', { class: 'pal-list' });
+  let items = [], idx = 0;
+  const draw = () => {
+    const q = inp.value.toLowerCase().trim();
+    items = paletteActions().filter(([n]) => !q || q.split(/\s+/).every(w => n.toLowerCase().includes(w)));
+    idx = Math.min(idx, Math.max(0, items.length - 1)); list.innerHTML = '';
+    items.forEach(([n, i, fn], k) => list.append(h('button', { class: 'pal-item' + (k === idx ? ' on' : ''), onmouseenter: () => { idx = k; $$('.pal-item', list).forEach((b, j) => b.classList.toggle('on', j === k)); }, onclick: () => { closeModal(); fn(); } }, ico(i), n)));
+    if (!items.length) list.append(h('div', { class: 'empty' }, 'No match'));
+    const on = $('.pal-item.on', list); if (on) on.scrollIntoView({ block: 'nearest' });
+  };
+  inp.oninput = () => { idx = 0; draw(); };
+  inp.onkeydown = e => {
+    if (e.key === 'ArrowDown') { idx = Math.min(items.length - 1, idx + 1); draw(); e.preventDefault(); }
+    else if (e.key === 'ArrowUp') { idx = Math.max(0, idx - 1); draw(); e.preventDefault(); }
+    else if (e.key === 'Enter' && items[idx]) { closeModal(); items[idx][2](); }
+    else if (e.key === 'Escape') closeModal();
+  };
+  draw(); modal([h('div', { class: 'pal' }, h('div', { class: 'searchwrap' }, ico('cmd'), inp), list)], true);
+  $('#sheet').classList.add('palette'); setTimeout(() => inp.focus(), 30);
+}
+
 /* ---------------- wire up ---------------- */
 $$('[data-i]').forEach(b => b.prepend(ico(b.dataset.i)));
 $('#homeBtn').onclick = openHome; $('#newBtn').onclick = openHome; $('#resizeBtn').onclick = openResize;
 $('#undoBtn').onclick = undo; $('#redoBtn').onclick = redo;
 $('#zoomIn').onclick = () => setZoom(S.zoom * 1.2); $('#zoomOut').onclick = () => setZoom(S.zoom / 1.2); $('#zoomVal').onclick = fit;
-$('#exportBtn').onclick = openExport; $('#saveBtn').onclick = saveFile; $('#openBtn').onclick = () => $('#fileProj').click();
+$('#exportBtn').onclick = openExport; $('#cmdBtn').onclick = openPalette;
+$('#magicBtn').onclick = () => { const a = canvas.getActiveObject(); if (isImg(a)) Magic.openMagic(a); else { $('#panel').classList.remove('closed'); S.tab = 'magic'; $$('.rb').forEach(b => b.classList.toggle('on', b.dataset.k === 'magic')); renderPanel(); } }; $('#saveBtn').onclick = saveFile; $('#openBtn').onclick = () => $('#fileProj').click();
 $('#fileImg').onchange = e => { addFiles([...e.target.files]); e.target.value = ''; };
 $('#fileProj').onchange = e => { if (e.target.files[0]) openProjectFile(e.target.files[0]); e.target.value = ''; };
 $('#docName').onchange = e => { S.doc.name = e.target.value.trim() || 'Untitled design'; saveSoon(); };
-window.addEventListener('resize', debounce(() => S.doc && canvas.calcOffset(), 150));
+window.addEventListener('resize', debounce(() => { if (S.doc) fit(); }, 150));
 window.addEventListener('beforeunload', () => { if (S.doc) { cur().json = snap(); saveNow(); } });
 
 (async function boot() {
